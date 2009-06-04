@@ -1,5 +1,4 @@
 <?php
-
 $urls = array(
    'flickr' => array('url' => 'http://www.flickr.com/atos/pro/'),
    'facebook' => array('url' => 'http://www.facebook.com/terms.php?ref=pf', 'content' => '/\<div id\="terms_of_service"\>(.*?)<\\/div>/is')
@@ -39,8 +38,7 @@ $allowed_tags = implode(array('<a>', '<p>', '<h1>', '<h2>', '<h3>', '<h4>', '<h5
 
 foreach ($urls as $name => $opt) {
    $content = disguise_curl($opt['url']);
-   
-   $content = str_replace("\r", "", str_replace("\n", "", $content));
+   $filename = $name . '/tos.html';
    
    if (isset($opt['content'])) {
       preg_match($opt['content'], $content, $matches);
@@ -53,11 +51,14 @@ foreach ($urls as $name => $opt) {
    if(!is_dir($name)) {
       mkdir($name, 0777, TRUE);
    }
+   
+   // Make folder writable
+   if (!is_writable($filename)) {
+      chmod($name, 0777);
+   }
 
-   // mkdir($mypath,0777,TRUE);
-   $filename = $name . '/tos.html';
+   // Output file
    $handle = fopen($filename, 'w');
    fwrite($handle, $content);
    fclose($handle);
-   echo "Success";
 }
