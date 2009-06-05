@@ -27,14 +27,14 @@ function disguise_curl($url) {
    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1); 
    curl_setopt($curl, CURLOPT_TIMEOUT, 10); 
 
-   $html = curl_exec($curl); // execute the curl command 
-   curl_close($curl); // close the connection 
+   $html = curl_exec($curl);
+   curl_close($curl);
 
-   return $html; // and finally, return $html 
+   return $html;
 }
 
-$allowed_tags = implode(array('<a>', '<p>', '<h1>', '<h2>', '<h3>', '<h4>', '<h5>', '<h6>', '<h7>', '<div>', '<span>', '<ul>', '<ol>', '<li>', '<table>', '<tbody>', '<thead>', '<tr>',
-'<td>', '<th>'));
+$allowed_tags = implode(array('<a>', '<p>', '<h1>', '<h2>', '<h3>', '<h4>', '<h5>', '<h6>', '<h7>', '<div>', '<span>', 
+'<ul>', '<ol>', '<li>', '<table>', '<tbody>', '<thead>', '<tr>', '<td>', '<th>'));
 
 foreach ($urls as $name => $opt) {
    $content = disguise_curl($opt['url']);
